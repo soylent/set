@@ -10,18 +10,13 @@ import Foundation
 class SetGameViewModel: ObservableObject {
     typealias Card = SetGameModel<VanillaCardAttributes>.Card
 
-    @Published var model: SetGameModel<VanillaCardAttributes>
+    @Published var model: SetGameModel<VanillaCardAttributes>!
 
     var visibleCards: [Card] { model.cardsBy(states: .unmatched, .matched, .mismatched) }
     var deckIsEmpty: Bool { model.cardsBy(states: .deck).isEmpty }
 
     init() {
-        model = SetGameModel(
-            numberOfCards: VanillaCardAttributes.deckSize,
-            setSize: VanillaCardAttributes.setSize,
-            initialDealingSize: VanillaCardAttributes.initialDealingSize,
-            cardAttributes: VanillaCardAttributes.allCards
-        )
+        startNewGame()
     }
 
     // MARK: - Intents
@@ -32,5 +27,14 @@ class SetGameViewModel: ObservableObject {
 
     func dealMoreCards() {
         model.dealMoreCards(count: VanillaCardAttributes.additionalDealingSize)
+    }
+
+    func startNewGame() {
+        model = SetGameModel(
+            numberOfCards: VanillaCardAttributes.deckSize,
+            setSize: VanillaCardAttributes.setSize,
+            initialDealingSize: VanillaCardAttributes.initialDealingSize,
+            cardAttributes: VanillaCardAttributes.allCards
+        )
     }
 }

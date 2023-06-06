@@ -18,11 +18,18 @@ struct SetGameView: View {
                 CardView(card: card).padding(DrawingConstants.cardPadding).onTapGesture { game.choose(card) }
             }
             .padding()
-            Button {
-                game.dealMoreCards()
-            } label: {
-                Image(systemName: "plus.circle.fill").font(.largeTitle)
-            }.disabled(game.deckIsEmpty)
+            HStack {
+                Button {
+                    game.startNewGame()
+                } label: {
+                    Image(systemName: "arrow.clockwise.circle.fill")
+                }
+                Button {
+                    game.dealMoreCards()
+                } label: {
+                    Image(systemName: "plus.circle.fill")
+                }.disabled(game.deckIsEmpty)
+            }.font(.largeTitle)
         }
     }
 
