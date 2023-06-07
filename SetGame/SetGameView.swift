@@ -12,25 +12,39 @@ struct SetGameView: View {
 
     var body: some View {
         VStack {
-            AspectVGrid(
-                items: game.visibleCards, aspectRatio: DrawingConstants.cardAspectRatio, minItemWidth: DrawingConstants.minCardWidth
-            ) { card in
-                CardView(card: card).padding(DrawingConstants.cardPadding).onTapGesture { game.choose(card) }
-            }
-            .padding()
-            HStack {
-                Button {
-                    game.startNewGame()
-                } label: {
-                    Image(systemName: "arrow.clockwise.circle.fill")
-                }
-                Button {
-                    game.dealMoreCards()
-                } label: {
-                    Image(systemName: "plus.circle.fill")
-                }.disabled(game.deckIsEmpty)
-            }.font(.largeTitle)
+            cardGrid
+            bottomMenu
         }
+    }
+
+    private var cardGrid: some View {
+        AspectVGrid(
+            items: game.visibleCards, aspectRatio: DrawingConstants.cardAspectRatio, minItemWidth: DrawingConstants.minCardWidth
+        ) { card in
+            CardView(card: card).padding(DrawingConstants.cardPadding).onTapGesture {
+                game.choose(card)
+            }
+        }
+        .padding()
+
+    }
+
+    private var bottomMenu: some View {
+        HStack {
+            Button {
+                game.startNewGame()
+            } label: {
+                Image(systemName: "arrow.clockwise.circle.fill")
+            }
+
+            Button {
+                game.dealMoreCards()
+            } label: {
+                Image(systemName: "plus.circle.fill")
+            }
+            .disabled(game.deckIsEmpty)
+        }
+        .font(.largeTitle)
     }
 
     private struct DrawingConstants {

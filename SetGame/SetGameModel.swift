@@ -8,6 +8,8 @@
 import Foundation
 
 protocol SetMatchable {
+    static var setSize: Int { get }
+
     associatedtype T: Hashable
     var rawAttributes: [T] { get }
 }
@@ -21,17 +23,23 @@ struct SetGameModel<CardAttributes: SetMatchable> {
 
     init(numberOfCards: Int, setSize: Int, initialDealingSize: Int, cardAttributes: [CardAttributes]) {
         self.setSize = setSize
-        self.cards = zip(cardAttributes.indices, cardAttributes).map { index, attrs in Card(id: index, attributes: attrs) }.shuffled()
+        self.cards = zip(cardAttributes.indices, cardAttributes).map { index, attrs in
+            Card(id: index, attributes: attrs)
+        }
+        .shuffled()
 
         dealMoreCards(count: initialDealingSize)
     }
 
     mutating func choose(_ card: Card) {
-        cleanUpTheTable()
+        guard let cardIndex = cardIndexBy(id: card.id) else { return }
 
-        guard card.state == .unmatched, let cardIndex = cardIndexBy(id: card.id) else { return }
+        dealMoreCards(count: cleanUpMatchedCards())
+        cleanUpMismatchedCards()
 
-        cards[cardIndex].isSelected.toggle()
+        if cards[cardIndex].state != .done {
+            cards[cardIndex].isSelected.toggle()
+        }
 
         if selectedCards.count == setSize {
             let matched = Card.isMatchingSet(selectedCards)
@@ -43,19 +51,23 @@ struct SetGameModel<CardAttributes: SetMatchable> {
         }
     }
 
-    mutating private func cleanUpTheTable() {
-        cardIndicesBy(state: .mismatched).forEach {
-            cards[$0].state = .unmatched
-            cards[$0].isSelected = false
+    mutating func cleanUpMatchedCards() -> Int {
+        let matchedCardIndices = cardIndicesBy(state: .matched)
+        for index in matchedCardIndices {
+            cards[index].state = .done
+            cards[index].isSelected = false
         }
-        cardIndicesBy(state: .matched).forEach {
-            cards[$0].state = .done
-            cards[$0].isSelected = false
-            dealMoreCards()
+        return matchedCardIndices.count
+    }
+
+    mutating private func cleanUpMismatchedCards() {
+        for index in cardIndicesBy(state: .mismatched) {
+            cards[index].state = .unmatched
+            cards[index].isSelected = false
         }
     }
 
-    mutating func dealMoreCards(count: Int = 1) {
+    mutating func dealMoreCards(count: Int) {
         let deckCardIndices = cardIndicesBy(state: .deck)
         let numberOfCards = min(count, deckCardIndices.count)
         deckCardIndices[0..<numberOfCards].forEach {
@@ -85,7 +97,7 @@ struct SetGameModel<CardAttributes: SetMatchable> {
             let attrCount = cards[0].attributes.rawAttributes.count
             for index in 0..<attrCount {
                 let distinctAttrs = Set(cards.map { $0.attributes.rawAttributes[index] })
-                if distinctAttrs.count > 1 && distinctAttrs.count < attrCount {
+                if distinctAttrs.count > 1 && distinctAttrs.count < CardAttributes.setSize {
                     return false
                 }
             }

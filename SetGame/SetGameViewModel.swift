@@ -26,6 +26,7 @@ class SetGameViewModel: ObservableObject {
     }
 
     func dealMoreCards() {
+        let _ = model.cleanUpMatchedCards()
         model.dealMoreCards(count: VanillaCardAttributes.additionalDealingSize)
     }
 
@@ -34,7 +35,7 @@ class SetGameViewModel: ObservableObject {
             numberOfCards: VanillaCardAttributes.deckSize,
             setSize: VanillaCardAttributes.setSize,
             initialDealingSize: VanillaCardAttributes.initialDealingSize,
-            cardAttributes: VanillaCardAttributes.allCards
+            cardAttributes: VanillaCardAttributes.allCardAttributeCombinations
         )
     }
 }

@@ -7,25 +7,28 @@
 
 import Foundation
 
+/// The game can be extended to support other card appearances, attributes, set sizes, etc.j
 struct VanillaCardAttributes: SetMatchable {
     static let setSize = 3
     static let initialDealingSize = 12
     static let deckSize = 3 * 3 * 3 * 3
     static let additionalDealingSize = 3
 
-    static var allCards: [VanillaCardAttributes] {
-        var cards: [VanillaCardAttributes] = []
+    static var allCardAttributeCombinations: [VanillaCardAttributes] {
+        var combinations: [VanillaCardAttributes] = []
         for number in Number.allCases {
             for symbol in Symbol.allCases {
                 for shading in Shading.allCases {
                     for color in Color.allCases {
-                        cards.append(VanillaCardAttributes(number: number, symbol: symbol, shading: shading, color: color))
+                        combinations.append(
+                            VanillaCardAttributes(number: number, symbol: symbol, shading: shading, color: color)
+                        )
                     }
                 }
             }
         }
-        assert(cards.count == deckSize)
-        return cards
+        assert(combinations.count == deckSize)
+        return combinations
     }
 
     var number: Number
