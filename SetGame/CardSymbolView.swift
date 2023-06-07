@@ -7,9 +7,12 @@
 
 import SwiftUI
 
+/// A view that represents symbol(s) on the card face.
 struct CardSymbolView: View {
+    /// An instance of the card attributes.
     let cardAttributes: VanillaCardAttributes
 
+    /// The view body.
     var body: some View {
         VStack {
             ForEach(0..<cardAttributes.number.rawValue, id: \.self) { _ in
@@ -21,6 +24,7 @@ struct CardSymbolView: View {
         }
     }
 
+    /// A view that represents a single symbol shown on the card face.
     @ViewBuilder
     private var symbol: some View {
         switch cardAttributes.symbol {
@@ -33,6 +37,7 @@ struct CardSymbolView: View {
         }
     }
 
+    /// Applies shading to a card symbol based on the card attributes.
     @ViewBuilder
     private func shaded<Symbol: Shape>(_ symbol: Symbol) -> some View {
         switch cardAttributes.shading {
@@ -45,6 +50,7 @@ struct CardSymbolView: View {
         }
     }
 
+    /// The color of each symbol.
     private var symbolColor: Color {
         switch cardAttributes.color {
         case .red:

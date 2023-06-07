@@ -7,9 +7,12 @@
 
 import SwiftUI
 
+/// A view that represents a single Set card.
 struct CardView: View {
+    /// An instance of the card model.
     let card: SetGameViewModel.Card
 
+    /// The view body.
     var body: some View {
         let cardTile = RoundedRectangle(cornerRadius: DrawingConstants.cardCornerRadius)
         ZStack {
@@ -20,10 +23,12 @@ struct CardView: View {
         }
     }
 
+    /// The width of the card outline.
     private var cardLineWidth: CGFloat {
         card.isSelected ? DrawingConstants.selectedCardLineWidth : DrawingConstants.unselectedCardLineWidth
     }
 
+    /// The color of the card outline.
     private var cardColor: Color {
         switch card.state {
         case .matched:

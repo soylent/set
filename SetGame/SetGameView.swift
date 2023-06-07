@@ -7,9 +7,12 @@
 
 import SwiftUI
 
+/// The main game view.
 struct SetGameView: View {
+    /// A reference to the view model instance.
     @ObservedObject var game: SetGameViewModel
 
+    /// The view body.
     var body: some View {
         VStack {
             cardGrid
@@ -17,6 +20,7 @@ struct SetGameView: View {
         }
     }
 
+    /// All cards that are currently on the table.
     private var cardGrid: some View {
         AspectVGrid(
             items: game.visibleCards, aspectRatio: DrawingConstants.cardAspectRatio, minItemWidth: DrawingConstants.minCardWidth
@@ -29,6 +33,7 @@ struct SetGameView: View {
 
     }
 
+    /// The menu at the bottom of the screen.
     private var bottomMenu: some View {
         HStack {
             Button {
