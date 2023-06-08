@@ -19,7 +19,6 @@ struct CardSymbolView: View {
                 symbol
                     .aspectRatio(DrawingConstants.aspectRatio, contentMode: .fit)
                     .foregroundColor(symbolColor)
-                    .padding(.horizontal, DrawingConstants.horizontalPadding)
             }
         }
     }
@@ -63,8 +62,7 @@ struct CardSymbolView: View {
     }
 
     private struct DrawingConstants {
-        static let aspectRatio: CGFloat = 15/8
-        static let horizontalPadding: CGFloat = 13
+        static let aspectRatio: CGFloat = 9/4
         static let openShadingLineWidth: CGFloat = 4
         static let stripedShadingOpacity: CGFloat = 0.4
     }

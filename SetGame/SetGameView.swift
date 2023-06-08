@@ -11,6 +11,8 @@ import SwiftUI
 struct SetGameView: View {
     /// A reference to the view model instance.
     @ObservedObject var game: SetGameViewModel
+    /// An array of card ids that are currently selected.
+    @State private var selectedCardIds: Set<Int> = []
 
     /// The view body.
     var body: some View {
@@ -25,18 +27,20 @@ struct SetGameView: View {
         AspectVGrid(
             items: game.visibleCards, aspectRatio: DrawingConstants.cardAspectRatio, minItemWidth: DrawingConstants.minCardWidth
         ) { card in
-            CardView(card: card).padding(DrawingConstants.cardPadding).onTapGesture {
-                game.choose(card)
-            }
+            CardView(card: card, selectedCardIds: $selectedCardIds)
+                .padding(DrawingConstants.cardPadding)
+                .onTapGesture {
+                    game.choose(card: card, selectedCardIds: &selectedCardIds)
+                }
         }
         .padding()
-
     }
 
     /// The menu at the bottom of the screen.
     private var bottomMenu: some View {
         HStack {
             Button {
+                selectedCardIds.removeAll()
                 game.startNewGame()
             } label: {
                 Image(systemName: "arrow.clockwise.circle.fill")
@@ -53,7 +57,7 @@ struct SetGameView: View {
     }
 
     private struct DrawingConstants {
-        static let cardAspectRatio: CGFloat = 5/8
+        static let cardAspectRatio: CGFloat = 3/4
         static let cardPadding: CGFloat = 2
         static let minCardWidth: CGFloat = 60
     }

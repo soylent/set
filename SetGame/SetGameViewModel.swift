@@ -14,7 +14,6 @@ class SetGameViewModel: ObservableObject {
 
     /// An instance of the game model.
     @Published var model: SetGameModel<VanillaCardAttributes>!
-
     /// The cards that are currently on the table.
     var visibleCards: [Card] { model.cardsBy(states: .unmatched, .matched, .mismatched) }
     /// Whether or not the deck is empty.
@@ -25,16 +24,32 @@ class SetGameViewModel: ObservableObject {
         startNewGame()
     }
 
-    // MARK: - Intents
-
     /// Selects the given `card` and updates the game state accordingly.
-    func choose(_ card: Card) {
-        model.choose(card)
+    func choose(card: Card, selectedCardIds: inout Set<Int>) {
+        if selectedCardIds.count >= model.setSize {
+            selectedCardIds.removeAll()
+        }
+
+        toggle(card: card, selectedCardIds: &selectedCardIds)
+
+        model.cleanUpTheTable()
+        model.tryToMatchCards(withIds: selectedCardIds)
+    }
+
+    /// Flips the selection of the given `card` by updating `selectedCardIds`.
+    private func toggle(card: Card, selectedCardIds: inout Set<Int>) {
+        guard card.state != .matched else { return }
+
+        if selectedCardIds.contains(card.id) {
+            selectedCardIds.remove(card.id)
+        } else {
+            selectedCardIds.insert(card.id)
+        }
     }
 
     /// Adds more cards to the table.
     func dealMoreCards() {
-        let _ = model.cleanUpMatchedCards()
+        model.cleanUpTheTable(replacingMatchedCards: false)
         model.dealMoreCards(numberOfCards: VanillaCardAttributes.additionalDealingSize)
     }
 

@@ -21,9 +21,6 @@ struct SetGameModel<CardAttributes: SetMatchable> {
     /// The number of cards that can form a matching set.
     let setSize: Int
 
-    /// The cards that are currently selected.
-    private var selectedCards: [Card] { cards.filter { $0.isSelected } }
-
     /// Creates a new game instance with the given settings and `cardAttributes`.
     init(cardAttributes: [CardAttributes], setSize: Int, initialDealingSize: Int) {
         self.setSize = setSize
@@ -35,42 +32,30 @@ struct SetGameModel<CardAttributes: SetMatchable> {
         dealMoreCards(numberOfCards: initialDealingSize)
     }
 
-    /// Selects the given `card` and updates the game state according the rules.
-    mutating func choose(_ card: Card) {
-        guard let cardIndex = cardIndexBy(id: card.id) else { return }
+    /// Tries to match the cards with the given `cardIds` and updates their state accordingly.
+    mutating func tryToMatchCards(withIds cardIds: Set<Int>) {
+        let cardIndices = cardIds.compactMap { cardIndexBy(id: $0) }
 
-        dealMoreCards(numberOfCards: cleanUpMatchedCards())
-        cleanUpMismatchedCards()
+        guard cardIndices.count == setSize else { return }
 
-        if cards[cardIndex].state != .done {
-            cards[cardIndex].isSelected.toggle()
-        }
-
-        if selectedCards.count == setSize {
-            let matched = Card.isMatchingSet(selectedCards, setSize: setSize)
-            for card in selectedCards {
-                if let cardIndex = cardIndexBy(id: card.id) {
-                    cards[cardIndex].state = matched ? .matched : .mismatched
-                }
-            }
+        let selectedCards = cardIndices.map { cards[$0] }
+        let matched = Card.isMatchingSet(selectedCards, setSize: setSize)
+        for cardIndex in cardIndices {
+            cards[cardIndex].state = matched ? .matched : .mismatched
         }
     }
 
-    /// Removes any matching cards and returns their count.
-    mutating func cleanUpMatchedCards() -> Int {
+    /// Removes any matched or mismatched cards with replacement if `replacingMatchedCards` is true.
+    mutating func cleanUpTheTable(replacingMatchedCards: Bool = true) {
         let matchedCardIndices = cardIndicesBy(state: .matched)
         for index in matchedCardIndices {
             cards[index].state = .done
-            cards[index].isSelected = false
         }
-        return matchedCardIndices.count
-    }
-
-    /// Resets mismatching cards.
-    mutating private func cleanUpMismatchedCards() {
         for index in cardIndicesBy(state: .mismatched) {
             cards[index].state = .unmatched
-            cards[index].isSelected = false
+        }
+        if replacingMatchedCards {
+            dealMoreCards(numberOfCards: matchedCardIndices.count)
         }
     }
 
@@ -104,8 +89,6 @@ struct SetGameModel<CardAttributes: SetMatchable> {
         let id: Int
         /// Attributes that define the card.
         let attributes: CardAttributes
-        /// Whether or not the card is currently selected.
-        var isSelected = false
         /// The current state of the card.
         var state: State = .deck
 
@@ -123,7 +106,7 @@ struct SetGameModel<CardAttributes: SetMatchable> {
 
         /// Card states.
         enum State {
-            case deck, unmatched, matched, mismatched, done
+            case deck, unmatched, mismatched, matched, done
         }
     }
 }
