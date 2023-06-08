@@ -21,14 +21,14 @@ struct VanillaCardAttributes: SetMatchable {
     static let additionalDealingSize = 3
 
     /// An array of all possible attribute combinations.
-    static var allCardAttributeCombinations: [VanillaCardAttributes] {
-        var combinations: [VanillaCardAttributes] = []
+    static var allCardAttributeCombinations: [Self] {
+        var combinations: [Self] = []
         for number in Number.allCases {
             for symbol in Symbol.allCases {
                 for shading in Shading.allCases {
                     for color in Color.allCases {
                         combinations.append(
-                            VanillaCardAttributes(number: number, symbol: symbol, shading: shading, color: color)
+                            Self(number: number, symbol: symbol, shading: shading, color: color)
                         )
                     }
                 }

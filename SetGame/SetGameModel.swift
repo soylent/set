@@ -33,7 +33,7 @@ struct SetGameModel<CardAttributes: SetMatchable> {
     }
 
     /// Tries to match the cards with the given `cardIds` and updates their state accordingly.
-    mutating func tryToMatchCards(withIds cardIds: Set<Int>) {
+    mutating func tryToMatchCards<CardIds: Sequence>(withIds cardIds: CardIds) where CardIds.Element == Int {
         let cardIndices = cardIds.compactMap { cardIndexBy(id: $0) }
 
         guard cardIndices.count == setSize else { return }
@@ -93,7 +93,7 @@ struct SetGameModel<CardAttributes: SetMatchable> {
         var state: State = .deck
 
         /// Returns true if the given `cards` form a matching set of the given `setSize`, and false otherwise.
-        static func isMatchingSet(_ cards: [Card], setSize: Int) -> Bool {
+        static func isMatchingSet(_ cards: [Self], setSize: Int) -> Bool {
             let attrCount = cards[0].attributes.rawAttributes.count
             for index in 0..<attrCount {
                 let distinctAttrs = Set(cards.map { $0.attributes.rawAttributes[index] })
