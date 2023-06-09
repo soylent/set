@@ -16,7 +16,6 @@
 		CE3097402A2C479E00A5F960 /* SetGameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE30973F2A2C479E00A5F960 /* SetGameViewModel.swift */; };
 		CE3097442A2D538000A5F960 /* Diamond.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3097432A2D538000A5F960 /* Diamond.swift */; };
 		CE8004082A301924000BD4F3 /* CardSymbolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8004072A301924000BD4F3 /* CardSymbolView.swift */; };
-		CE80040A2A302395000BD4F3 /* Squiggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8004092A302395000BD4F3 /* Squiggle.swift */; };
 		CEAE4A8B2A2EFC0200A6D633 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAE4A8A2A2EFC0200A6D633 /* CardView.swift */; };
 		CEF7E2AC2A2E7C71001527BD /* VanillaCardAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF7E2AB2A2E7C71001527BD /* VanillaCardAttributes.swift */; };
 /* End PBXBuildFile section */
@@ -32,7 +31,6 @@
 		CE30973F2A2C479E00A5F960 /* SetGameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGameViewModel.swift; sourceTree = "<group>"; };
 		CE3097432A2D538000A5F960 /* Diamond.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diamond.swift; sourceTree = "<group>"; };
 		CE8004072A301924000BD4F3 /* CardSymbolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardSymbolView.swift; sourceTree = "<group>"; };
-		CE8004092A302395000BD4F3 /* Squiggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Squiggle.swift; sourceTree = "<group>"; };
 		CEAE4A8A2A2EFC0200A6D633 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		CEF7E2AB2A2E7C71001527BD /* VanillaCardAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VanillaCardAttributes.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -68,7 +66,6 @@
 			isa = PBXGroup;
 			children = (
 				CEF7E2AB2A2E7C71001527BD /* VanillaCardAttributes.swift */,
-				CE8004092A302395000BD4F3 /* Squiggle.swift */,
 				CE30972D2A2C3E1600A5F960 /* SetGameApp.swift */,
 				CE30972F2A2C3E1600A5F960 /* SetGameView.swift */,
 				CEAE4A8A2A2EFC0200A6D633 /* CardView.swift */,
@@ -161,7 +158,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE80040A2A302395000BD4F3 /* Squiggle.swift in Sources */,
 				CE3097302A2C3E1600A5F960 /* SetGameView.swift in Sources */,
 				CE30972E2A2C3E1600A5F960 /* SetGameApp.swift in Sources */,
 				CE30973E2A2C43DD00A5F960 /* SetGameModel.swift in Sources */,
