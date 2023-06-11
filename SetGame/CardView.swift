@@ -24,13 +24,14 @@ struct CardView: View {
         if isFaceUp {
             ZStack {
                 cardTile.fill(.white)
-                cardTile.strokeBorder(lineWidth: cardLineWidth).foregroundColor(DrawingConstants.borderColor)
+                cardTile.strokeBorder(lineWidth: cardLineWidth).foregroundColor(cardColor)
 
                 GeometryReader { geometry in
                     VStack {
                         Spacer(minLength: 0)
                         CardSymbolView(cardAttributes: card.attributes)
-                            .padding(.horizontal, symbolPadding(for: geometry.size.width))
+                            .amplify(card.state == .matched)
+                            .padding(symbolPadding(for: geometry.size.width))
                         Spacer(minLength: 0)
                     }
                 }
@@ -59,13 +60,12 @@ struct CardView: View {
         case .mismatched:
             return .red
         default:
-            return .white
+            return .blue
         }
     }
 
     private struct DrawingConstants {
         static let backColor: Color = .orange
-        static let borderColor: Color = .blue
         static let cornerRadius: CGFloat = 12
         static let selectedCardLineWidth: CGFloat = 3
         static let unselectedCardLineWidth: CGFloat = 1

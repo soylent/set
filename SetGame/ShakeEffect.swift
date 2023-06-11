@@ -21,7 +21,7 @@ struct ShakeEffect: GeometryEffect {
     /// Shaking amplitude.
     private static let amplitude = 10.0
 
-    /// Creates a new instance of the effect.
+    /// Creates an instance of the effect.
     init(shake: Bool) {
         angle = shake ? Self.maxAngle : 0.0
     }

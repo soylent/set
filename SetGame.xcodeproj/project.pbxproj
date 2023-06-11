@@ -18,6 +18,7 @@
 		CE8004082A301924000BD4F3 /* CardSymbolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8004072A301924000BD4F3 /* CardSymbolView.swift */; };
 		CEAE4A8B2A2EFC0200A6D633 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAE4A8A2A2EFC0200A6D633 /* CardView.swift */; };
 		CED9F11F2A3683CD00A62436 /* ShakeEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED9F11E2A3683CD00A62436 /* ShakeEffect.swift */; };
+		CED9F1212A368A5A00A62436 /* AmplificationEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED9F1202A368A5A00A62436 /* AmplificationEffect.swift */; };
 		CEF7E2AC2A2E7C71001527BD /* VanillaCardAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF7E2AB2A2E7C71001527BD /* VanillaCardAttributes.swift */; };
 /* End PBXBuildFile section */
 
@@ -34,6 +35,7 @@
 		CE8004072A301924000BD4F3 /* CardSymbolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardSymbolView.swift; sourceTree = "<group>"; };
 		CEAE4A8A2A2EFC0200A6D633 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		CED9F11E2A3683CD00A62436 /* ShakeEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShakeEffect.swift; sourceTree = "<group>"; };
+		CED9F1202A368A5A00A62436 /* AmplificationEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmplificationEffect.swift; sourceTree = "<group>"; };
 		CEF7E2AB2A2E7C71001527BD /* VanillaCardAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VanillaCardAttributes.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -51,6 +53,7 @@
 		CE3097212A2C3E1600A5F960 = {
 			isa = PBXGroup;
 			children = (
+				CED9F1202A368A5A00A62436 /* AmplificationEffect.swift */,
 				CE30972C2A2C3E1600A5F960 /* SetGame */,
 				CE30972B2A2C3E1600A5F960 /* Products */,
 			);
@@ -162,6 +165,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE3097302A2C3E1600A5F960 /* SetGameView.swift in Sources */,
+				CED9F1212A368A5A00A62436 /* AmplificationEffect.swift in Sources */,
 				CE30972E2A2C3E1600A5F960 /* SetGameApp.swift in Sources */,
 				CE30973E2A2C43DD00A5F960 /* SetGameModel.swift in Sources */,
 				CE8004082A301924000BD4F3 /* CardSymbolView.swift in Sources */,
