@@ -18,8 +18,24 @@ struct SetGameView: View {
     var body: some View {
         VStack {
             cardGrid
+            HStack {
+                pile(of: game.remainingCards, isFaceUp: false)
+                Spacer()
+                pile(of: game.doneCards, isFaceUp: true)
+            }
+            .frame(height: 110)
             bottomMenu
         }
+        .padding()
+    }
+
+    private func pile(of cards: [SetGameViewModel.Card], isFaceUp: Bool) -> some View {
+        ZStack {
+            ForEach(cards) { card in
+                CardView(card: card, isFaceUp: isFaceUp, selectedCardIds: $selectedCardIds)
+            }
+        }
+        .aspectRatio(DrawingConstants.cardAspectRatio, contentMode: .fit)
     }
 
     /// All cards that are currently on the table.
@@ -33,7 +49,6 @@ struct SetGameView: View {
                     game.choose(card: card, selectedCardIds: &selectedCardIds)
                 }
         }
-        .padding()
     }
 
     /// The menu at the bottom of the screen.

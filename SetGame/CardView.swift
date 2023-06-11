@@ -11,6 +11,8 @@ import SwiftUI
 struct CardView: View {
     /// An instance of the card model.
     let card: SetGameViewModel.Card
+    /// Whether or not the face is up.
+    var isFaceUp = true
     /// An array of card ids that are currently selected.
     @Binding var selectedCardIds: Set<Int>
     /// Whether or not the card is currently selected.
@@ -19,18 +21,22 @@ struct CardView: View {
     /// The view body.
     var body: some View {
         let cardTile = RoundedRectangle(cornerRadius: DrawingConstants.cardCornerRadius)
-        ZStack {
-            cardTile.foregroundColor(.white)
-            cardTile.strokeBorder(lineWidth: cardLineWidth).foregroundColor(cardColor)
+        if isFaceUp {
+            ZStack {
+                cardTile.foregroundColor(.white)
+                cardTile.strokeBorder(lineWidth: cardLineWidth).foregroundColor(cardColor)
 
-            GeometryReader { geometry in
-                VStack {
-                    Spacer(minLength: 0)
-                    CardSymbolView(cardAttributes: card.attributes)
-                        .padding(.horizontal, symbolPadding(for: geometry.size.width))
-                    Spacer(minLength: 0)
+                GeometryReader { geometry in
+                    VStack {
+                        Spacer(minLength: 0)
+                        CardSymbolView(cardAttributes: card.attributes)
+                            .padding(.horizontal, symbolPadding(for: geometry.size.width))
+                        Spacer(minLength: 0)
+                    }
                 }
             }
+        } else {
+            cardTile.fill(.orange)
         }
     }
 

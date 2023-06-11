@@ -16,8 +16,12 @@ class SetGameViewModel: ObservableObject {
     @Published var model: SetGameModel<VanillaCardAttributes>!
     /// The cards that are currently on the table.
     var visibleCards: [Card] { model.cardsBy(states: .unmatched, .matched, .mismatched) }
+    /// The cards that are currently in the deck.
+    var remainingCards: [Card] { model.cardsBy(states: .deck) }
+    /// The cards that have been discarded.
+    var doneCards: [Card] { model.cardsBy(states: .done) }
     /// Whether or not the deck is empty.
-    var deckIsEmpty: Bool { model.cardsBy(states: .deck).isEmpty }
+    var deckIsEmpty: Bool { remainingCards.isEmpty }
 
     /// Creates an instance of the view model.
     init() {
