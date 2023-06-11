@@ -13,6 +13,8 @@ struct SetGameView: View {
     @ObservedObject var game: SetGameViewModel
     /// An array of card ids that are currently selected.
     @State private var selectedCardIds: Set<Int> = []
+    /// Namespace for card ids.
+    @Namespace private var cardNamespace
 
     /// The view body.
     var body: some View {
@@ -21,7 +23,9 @@ struct SetGameView: View {
             HStack {
                 pile(of: game.remainingCards, isFaceUp: false)
                     .onTapGesture {
-                        game.dealMoreCards()
+                        withAnimation {
+                            game.dealMoreCards()
+                        }
                     }
                 Spacer()
                 pile(of: game.doneCards, isFaceUp: true)
@@ -32,10 +36,12 @@ struct SetGameView: View {
         .padding()
     }
 
+    /// Returns a view that represents a file of given `cards`.
     private func pile(of cards: [SetGameViewModel.Card], isFaceUp: Bool) -> some View {
         ZStack {
             ForEach(cards) { card in
                 CardView(card: card, isFaceUp: isFaceUp, selectedCardIds: $selectedCardIds)
+                    .matchedGeometryEffect(id: card.id, in: cardNamespace)
             }
         }
         .aspectRatio(DrawingConstants.cardAspectRatio, contentMode: .fit)
@@ -48,7 +54,11 @@ struct SetGameView: View {
         ) { card in
             CardView(card: card, selectedCardIds: $selectedCardIds)
                 .padding(DrawingConstants.cardPadding)
+                .matchedGeometryEffect(id: card.id, in: cardNamespace)
                 .onTapGesture {
+                    withAnimation {
+                        game.discardMatchedCards()
+                    }
                     game.choose(card: card, selectedCardIds: &selectedCardIds)
                 }
         }

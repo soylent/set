@@ -30,11 +30,10 @@ class SetGameViewModel: ObservableObject {
     func choose(card: Card, selectedCardIds: inout Set<Int>) {
         if selectedCardIds.count >= model.setSize {
             selectedCardIds.removeAll()
+            resetMismatchedCards()
         }
 
         toggle(card: card, selectedCardIds: &selectedCardIds)
-
-        model.cleanUpTheTable()
         model.tryToMatchCards(withIds: selectedCardIds)
     }
 
@@ -49,9 +48,22 @@ class SetGameViewModel: ObservableObject {
         }
     }
 
+    /// Removes matched cards from the table.
+    func discardMatchedCards(withReplacement: Bool = true) {
+        let matchedCount = model.changeCardState(from: .matched, to: .done)
+        if withReplacement {
+            model.dealMoreCards(numberOfCards: matchedCount)
+        }
+    }
+
+    /// Resets any mismatched cards.
+    func resetMismatchedCards() {
+        let _ = model.changeCardState(from: .mismatched, to: .unmatched)
+    }
+
     /// Adds more cards to the table.
     func dealMoreCards() {
-        model.cleanUpTheTable(replacingMatchedCards: false)
+        discardMatchedCards(withReplacement: false)
         model.dealMoreCards(numberOfCards: VanillaCardAttributes.additionalDealingSize)
     }
 

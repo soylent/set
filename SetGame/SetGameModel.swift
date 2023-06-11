@@ -45,18 +45,13 @@ struct SetGameModel<CardAttributes: SetMatchable> {
         }
     }
 
-    /// Removes any matched or mismatched cards with replacement if `replacingMatchedCards` is true.
-    mutating func cleanUpTheTable(replacingMatchedCards: Bool = true) {
-        let matchedCardIndices = cardIndicesBy(state: .matched)
-        for index in matchedCardIndices {
-            cards[index].state = .done
+    /// Changes the state of cards in the `sourceState` to the `destinationState` and returns the number of affected cards.
+    mutating func changeCardState(from sourceState: Card.State, to destinationState: Card.State) -> Int {
+        let cardIndices = cardIndicesBy(state: sourceState)
+        for index in cardIndices {
+            cards[index].state = destinationState
         }
-        for index in cardIndicesBy(state: .mismatched) {
-            cards[index].state = .unmatched
-        }
-        if replacingMatchedCards {
-            dealMoreCards(numberOfCards: matchedCardIndices.count)
-        }
+        return cardIndices.count
     }
 
     /// Add the given `numberOfCards` to the table.
