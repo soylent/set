@@ -20,11 +20,11 @@ struct CardView: View {
 
     /// The view body.
     var body: some View {
-        let cardTile = RoundedRectangle(cornerRadius: DrawingConstants.cardCornerRadius)
+        let cardTile = RoundedRectangle(cornerRadius: DrawingConstants.cornerRadius)
         if isFaceUp {
             ZStack {
-                cardTile.foregroundColor(.white)
-                cardTile.strokeBorder(lineWidth: cardLineWidth).foregroundColor(cardColor)
+                cardTile.fill(.white)
+                cardTile.strokeBorder(lineWidth: cardLineWidth).foregroundColor(DrawingConstants.borderColor)
 
                 GeometryReader { geometry in
                     VStack {
@@ -35,8 +35,9 @@ struct CardView: View {
                     }
                 }
             }
+            .shaking(card.state == .mismatched)
         } else {
-            cardTile.fill(.orange)
+            cardTile.fill(DrawingConstants.backColor)
         }
     }
 
@@ -58,12 +59,14 @@ struct CardView: View {
         case .mismatched:
             return .red
         default:
-            return .blue
+            return .white
         }
     }
 
     private struct DrawingConstants {
-        static let cardCornerRadius: CGFloat = 12
+        static let backColor: Color = .orange
+        static let borderColor: Color = .blue
+        static let cornerRadius: CGFloat = 12
         static let selectedCardLineWidth: CGFloat = 3
         static let unselectedCardLineWidth: CGFloat = 1
         static let relativeHorizontalSymbolPadding: CGFloat = 0.2

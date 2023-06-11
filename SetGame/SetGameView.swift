@@ -56,10 +56,11 @@ struct SetGameView: View {
                 .padding(DrawingConstants.cardPadding)
                 .matchedGeometryEffect(id: card.id, in: cardNamespace)
                 .onTapGesture {
+                    game.choose(card: card, selectedCardIds: &selectedCardIds)
                     withAnimation {
                         game.discardMatchedCards()
+                        game.tryToMatchCards(withIds: selectedCardIds)
                     }
-                    game.choose(card: card, selectedCardIds: &selectedCardIds)
                 }
         }
     }

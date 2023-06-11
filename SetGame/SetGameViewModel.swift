@@ -32,9 +32,7 @@ class SetGameViewModel: ObservableObject {
             selectedCardIds.removeAll()
             resetMismatchedCards()
         }
-
         toggle(card: card, selectedCardIds: &selectedCardIds)
-        model.tryToMatchCards(withIds: selectedCardIds)
     }
 
     /// Flips the selection of the given `card` by updating `selectedCardIds`.
@@ -46,6 +44,11 @@ class SetGameViewModel: ObservableObject {
         } else {
             selectedCardIds.insert(card.id)
         }
+    }
+
+    /// Checks if the given `selectedCardIds` form a matching set.
+    func tryToMatchCards(withIds selectedCardIds: Set<Int>) {
+        model.tryToMatchCards(withIds: selectedCardIds)
     }
 
     /// Removes matched cards from the table.
