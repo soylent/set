@@ -20,8 +20,6 @@ class SetGameViewModel: ObservableObject {
     var remainingCards: [Card] { model.cardsBy(states: .deck) }
     /// The cards that have been discarded.
     var doneCards: [Card] { model.cardsBy(states: .done) }
-    /// Whether or not the deck is empty.
-    var deckIsEmpty: Bool { remainingCards.isEmpty }
 
     /// Creates an instance of the view model.
     init() {

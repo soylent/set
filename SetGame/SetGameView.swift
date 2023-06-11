@@ -20,10 +20,13 @@ struct SetGameView: View {
             cardGrid
             HStack {
                 pile(of: game.remainingCards, isFaceUp: false)
+                    .onTapGesture {
+                        game.dealMoreCards()
+                    }
                 Spacer()
                 pile(of: game.doneCards, isFaceUp: true)
             }
-            .frame(height: 110)
+            .frame(height: DrawingConstants.pileHeight)
             bottomMenu
         }
         .padding()
@@ -60,13 +63,6 @@ struct SetGameView: View {
             } label: {
                 Image(systemName: "arrow.clockwise.circle.fill")
             }
-
-            Button {
-                game.dealMoreCards()
-            } label: {
-                Image(systemName: "plus.circle.fill")
-            }
-            .disabled(game.deckIsEmpty)
         }
         .font(.largeTitle)
     }
@@ -75,6 +71,7 @@ struct SetGameView: View {
         static let cardAspectRatio: CGFloat = 3/4
         static let cardPadding: CGFloat = 2
         static let minCardWidth: CGFloat = 60
+        static let pileHeight: CGFloat = 110
     }
 }
 
