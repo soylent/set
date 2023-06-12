@@ -52,11 +52,12 @@ class SetGameViewModel: ObservableObject {
     }
 
     /// Removes matched cards from the table.
-    func discardMatchedCards(withReplacement: Bool = true) {
+    func discardMatchedCards(withReplacement: Bool = false) -> Int {
         let matchedCount = model.changeCardState(from: .matched, to: .done)
         if withReplacement {
             model.dealMoreCards(numberOfCards: matchedCount)
         }
+        return matchedCount
     }
 
     /// Resets any mismatched cards.
@@ -66,7 +67,6 @@ class SetGameViewModel: ObservableObject {
 
     /// Adds more cards to the table.
     func dealMoreCards() {
-        discardMatchedCards(withReplacement: false)
         model.dealMoreCards(numberOfCards: VanillaCardAttributes.additionalDealingSize)
     }
 

@@ -30,13 +30,15 @@ struct CardView: View {
                     VStack {
                         Spacer(minLength: 0)
                         CardSymbolView(cardAttributes: card.attributes)
-                            .amplify(card.state == .matched)
+                            .amplify(card.isMatched)
+                            .animation(card.isMatched ? .linear : .none, value: card.isMatched)
                             .padding(symbolPadding(for: geometry.size.width))
                         Spacer(minLength: 0)
                     }
                 }
             }
-            .shaking(card.state == .mismatched)
+            .shaking(card.isMismatched)
+            .animation(card.isMismatched ? .linear : .none, value: card.isMismatched)
         } else {
             cardTile.fill(DrawingConstants.backColor)
         }
@@ -67,8 +69,8 @@ struct CardView: View {
     private struct DrawingConstants {
         static let backColor: Color = .orange
         static let cornerRadius: CGFloat = 12
-        static let selectedCardLineWidth: CGFloat = 3
+        static let selectedCardLineWidth: CGFloat = 2
         static let unselectedCardLineWidth: CGFloat = 1
-        static let relativeHorizontalSymbolPadding: CGFloat = 0.2
+        static let relativeHorizontalSymbolPadding: CGFloat = 0.25
     }
 }

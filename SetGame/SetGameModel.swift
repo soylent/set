@@ -86,6 +86,10 @@ struct SetGameModel<CardAttributes: SetMatchable> {
         let attributes: CardAttributes
         /// The current state of the card.
         var state: State = .deck
+        /// Whether or not the card is currently matched.
+        var isMatched: Bool { state == .matched }
+        /// Whether or not the card is currently mismatched.
+        var isMismatched: Bool { state == .mismatched }
 
         /// Returns true if the given `cards` form a matching set of the given `setSize`, and false otherwise.
         static func isMatchingSet(_ cards: [Self], setSize: Int) -> Bool {

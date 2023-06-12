@@ -19,7 +19,7 @@ struct AmplificationEffect: Animatable, ViewModifier {
     /// Max angle value controls the number of cycles.
     private static let maxAngle = 720.0
     /// Scaling amplitude.
-    private static let amplitude = 0.15
+    private static let amplitude = 0.20
 
     /// Create an instance of the effect.
     init(amplify: Bool) {

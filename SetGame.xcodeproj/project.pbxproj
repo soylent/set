@@ -53,7 +53,6 @@
 		CE3097212A2C3E1600A5F960 = {
 			isa = PBXGroup;
 			children = (
-				CED9F1202A368A5A00A62436 /* AmplificationEffect.swift */,
 				CE30972C2A2C3E1600A5F960 /* SetGame */,
 				CE30972B2A2C3E1600A5F960 /* Products */,
 			);
@@ -70,6 +69,7 @@
 		CE30972C2A2C3E1600A5F960 /* SetGame */ = {
 			isa = PBXGroup;
 			children = (
+				CED9F1202A368A5A00A62436 /* AmplificationEffect.swift */,
 				CEF7E2AB2A2E7C71001527BD /* VanillaCardAttributes.swift */,
 				CE30972D2A2C3E1600A5F960 /* SetGameApp.swift */,
 				CE30972F2A2C3E1600A5F960 /* SetGameView.swift */,

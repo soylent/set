@@ -23,9 +23,7 @@ struct SetGameView: View {
             HStack {
                 pile(of: game.remainingCards, isFaceUp: false)
                     .onTapGesture {
-                        withAnimation {
-                            game.dealMoreCards()
-                        }
+                        dealMoreCards(replacingDiscardedOnly: false)
                     }
                 Spacer()
                 pile(of: game.doneCards, isFaceUp: true)
@@ -47,6 +45,19 @@ struct SetGameView: View {
         .aspectRatio(DrawingConstants.cardAspectRatio, contentMode: .fit)
     }
 
+    private func dealMoreCards(replacingDiscardedOnly: Bool = true) {
+        withAnimation {
+            let matchedCount = game.discardMatchedCards()
+            if matchedCount > 0 || !replacingDiscardedOnly {
+                let delay = matchedCount > 0 ? DrawingConstants.dealingDelay : 0.0
+                withAnimation(.default.delay(delay)) {
+                    game.dealMoreCards()
+                }
+            }
+        }
+
+    }
+
     /// All cards that are currently on the table.
     private var cardGrid: some View {
         AspectVGrid(
@@ -57,10 +68,8 @@ struct SetGameView: View {
                 .matchedGeometryEffect(id: card.id, in: cardNamespace)
                 .onTapGesture {
                     game.choose(card: card, selectedCardIds: &selectedCardIds)
-                    withAnimation {
-                        game.discardMatchedCards()
-                        game.tryToMatchCards(withIds: selectedCardIds)
-                    }
+                    dealMoreCards()
+                    game.tryToMatchCards(withIds: selectedCardIds)
                 }
         }
     }
@@ -83,6 +92,7 @@ struct SetGameView: View {
         static let cardPadding: CGFloat = 2
         static let minCardWidth: CGFloat = 60
         static let pileHeight: CGFloat = 110
+        static let dealingDelay: CGFloat = 0.06
     }
 }
 
