@@ -15,7 +15,8 @@ struct CardSymbolView: View {
     /// The view body.
     var body: some View {
         VStack {
-            ForEach(0..<cardAttributes.number.rawValue, id: \.self) { _ in
+            let numberOfSymbols = cardAttributes.number.rawValue
+            ForEach(0..<numberOfSymbols, id: \.self) { _ in
                 symbol
                     .aspectRatio(DrawingConstants.aspectRatio, contentMode: .fit)
                     .foregroundColor(symbolColor)
