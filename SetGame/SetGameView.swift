@@ -20,50 +20,21 @@ struct SetGameView: View {
     var body: some View {
         VStack {
             cardGrid
-            HStack {
-                pile(of: game.remainingCards, isFaceUp: false)
-                    .onTapGesture {
-                        dealMoreCards(replacingDiscardedOnly: false)
-                    }
-                Spacer()
-                pile(of: game.doneCards, isFaceUp: true)
-            }
-            .frame(height: DrawingConstants.pileHeight)
+            cardPiles
             bottomMenu
         }
         .padding()
     }
 
-    /// Returns a view that represents a file of given `cards`.
-    private func pile(of cards: [SetGameViewModel.Card], isFaceUp: Bool) -> some View {
-        ZStack {
-            ForEach(cards) { card in
-                CardView(card: card, isFaceUp: isFaceUp, selectedCardIds: $selectedCardIds)
-                    .matchedGeometryEffect(id: card.id, in: cardNamespace)
-            }
-        }
-        .aspectRatio(DrawingConstants.cardAspectRatio, contentMode: .fit)
-    }
-
-    private func dealMoreCards(replacingDiscardedOnly: Bool = true) {
-        withAnimation {
-            let matchedCount = game.discardMatchedCards()
-            if matchedCount > 0 || !replacingDiscardedOnly {
-                let delay = matchedCount > 0 ? DrawingConstants.dealingDelay : 0.0
-                withAnimation(.default.delay(delay)) {
-                    game.dealMoreCards()
-                }
-            }
-        }
-
-    }
-
     /// All cards that are currently on the table.
     private var cardGrid: some View {
         AspectVGrid(
-            items: game.visibleCards, aspectRatio: DrawingConstants.cardAspectRatio, minItemWidth: DrawingConstants.minCardWidth
+            items: game.visibleCards,
+            aspectRatio: DrawingConstants.cardAspectRatio,
+            minItemWidth: DrawingConstants.minCardWidth
         ) { card in
             CardView(card: card, selectedCardIds: $selectedCardIds)
+                .zIndex(zIndex(for: card, in: game.cards))
                 .padding(DrawingConstants.cardPadding)
                 .matchedGeometryEffect(id: card.id, in: cardNamespace)
                 .onTapGesture {
@@ -72,6 +43,19 @@ struct SetGameView: View {
                     game.tryToMatchCards(withIds: selectedCardIds)
                 }
         }
+    }
+
+    /// The deck and a pile of discarded cards.
+    private var cardPiles: some View {
+        HStack {
+            pile(of: game.remainingCards, isFaceUp: false, indexIn: game.cards)
+                .onTapGesture {
+                    dealMoreCards(replacingMatchedOnly: false)
+                }
+            Spacer()
+            pile(of: game.doneCards, isFaceUp: true, indexIn: game.doneCards)
+        }
+        .frame(height: DrawingConstants.pileHeight)
     }
 
     /// The menu at the bottom of the screen.
@@ -87,12 +71,46 @@ struct SetGameView: View {
         .font(.largeTitle)
     }
 
+    /// Returns a view that represents a file of given `cards`.
+    private func pile(of cards: [SetGameViewModel.Card], isFaceUp: Bool, indexIn allCards: [SetGameViewModel.Card]) -> some View {
+        ZStack {
+            ForEach(cards) { card in
+                let offset = CGFloat(card.index(in: allCards) / DrawingConstants.cardGroupSizeInPile * DrawingConstants.cardGroupOffsetInPile)
+                CardView(card: card, isFaceUp: isFaceUp, selectedCardIds: $selectedCardIds)
+                    .offset(x: 0, y: offset)
+                    .zIndex(zIndex(for: card, in: allCards))
+                    .matchedGeometryEffect(id: card.id, in: cardNamespace)
+            }
+        }
+        .aspectRatio(DrawingConstants.cardAspectRatio, contentMode: .fit)
+    }
+
+    /// Returns a zIndex value for the given `card` contained within `cards`.
+    private func zIndex(for card: SetGameViewModel.Card, in cards: [SetGameViewModel.Card]) -> Double {
+        -Double(card.index(in: cards))
+    }
+
+    /// Discards any matched cards and draws more cards from the deck.
+    private func dealMoreCards(replacingMatchedOnly: Bool = true) {
+        let matchedCount = withAnimation {
+            game.discardMatchedCards()
+        }
+        if matchedCount > 0 || !replacingMatchedOnly {
+            let delay = matchedCount > 0 ? DrawingConstants.dealingDelay : 0.0
+            withAnimation(.default.delay(delay)) {
+                game.dealMoreCards()
+            }
+        }
+    }
+
     private struct DrawingConstants {
         static let cardAspectRatio: CGFloat = 3/4
         static let cardPadding: CGFloat = 2
         static let minCardWidth: CGFloat = 60
         static let pileHeight: CGFloat = 110
         static let dealingDelay: CGFloat = 0.06
+        static let cardGroupSizeInPile = 12
+        static let cardGroupOffsetInPile = 2
     }
 }
 

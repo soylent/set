@@ -25,22 +25,29 @@ struct CardView: View {
             ZStack {
                 cardTile.fill(.white)
                 cardTile.strokeBorder(lineWidth: cardLineWidth).foregroundColor(cardColor)
-
-                GeometryReader { geometry in
-                    VStack {
-                        Spacer(minLength: 0)
-                        CardSymbolView(cardAttributes: card.attributes)
-                            .amplify(card.isMatched)
-                            .animation(card.isMatched ? .linear : .none, value: card.isMatched)
-                            .padding(symbolPadding(for: geometry.size.width))
-                        Spacer(minLength: 0)
-                    }
-                }
+                cardFace
             }
             .shaking(card.isMismatched)
             .animation(card.isMismatched ? .linear : .none, value: card.isMismatched)
         } else {
-            cardTile.fill(DrawingConstants.backColor)
+            ZStack {
+                cardTile.fill(DrawingConstants.backColor)
+                cardTile.strokeBorder(lineWidth: 1).foregroundColor(.white)
+            }
+        }
+    }
+
+    /// The face of the card.
+    var cardFace: some View {
+        GeometryReader { geometry in
+            VStack {
+                Spacer(minLength: 0)
+                CardSymbolView(cardAttributes: card.attributes)
+                    .amplify(card.isMatched)
+                    .animation(card.isMatched ? .linear : .none, value: card.isMatched)
+                    .padding(.horizontal, symbolPadding(for: geometry.size.width))
+                Spacer(minLength: 0)
+            }
         }
     }
 

@@ -19,7 +19,9 @@ class SetGameViewModel: ObservableObject {
     /// The cards that are currently in the deck.
     var remainingCards: [Card] { model.cardsBy(states: .deck) }
     /// The cards that have been discarded.
-    var doneCards: [Card] { model.cardsBy(states: .done) }
+    var doneCards: [Card] { model.doneCards.reversed() }
+    /// All available cards.
+    var cards: [Card] { model.cards }
 
     /// Creates an instance of the view model.
     init() {

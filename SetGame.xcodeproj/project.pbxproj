@@ -17,6 +17,7 @@
 		CE3097442A2D538000A5F960 /* Diamond.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3097432A2D538000A5F960 /* Diamond.swift */; };
 		CE8004082A301924000BD4F3 /* CardSymbolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8004072A301924000BD4F3 /* CardSymbolView.swift */; };
 		CEAE4A8B2A2EFC0200A6D633 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAE4A8A2A2EFC0200A6D633 /* CardView.swift */; };
+		CEB3691C2A37BCAD0096B25F /* Cardify.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB3691B2A37BCAD0096B25F /* Cardify.swift */; };
 		CED9F11F2A3683CD00A62436 /* ShakeEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED9F11E2A3683CD00A62436 /* ShakeEffect.swift */; };
 		CED9F1212A368A5A00A62436 /* AmplificationEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED9F1202A368A5A00A62436 /* AmplificationEffect.swift */; };
 		CEF7E2AC2A2E7C71001527BD /* VanillaCardAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF7E2AB2A2E7C71001527BD /* VanillaCardAttributes.swift */; };
@@ -34,6 +35,7 @@
 		CE3097432A2D538000A5F960 /* Diamond.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diamond.swift; sourceTree = "<group>"; };
 		CE8004072A301924000BD4F3 /* CardSymbolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardSymbolView.swift; sourceTree = "<group>"; };
 		CEAE4A8A2A2EFC0200A6D633 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		CEB3691B2A37BCAD0096B25F /* Cardify.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cardify.swift; sourceTree = SOURCE_ROOT; };
 		CED9F11E2A3683CD00A62436 /* ShakeEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShakeEffect.swift; sourceTree = "<group>"; };
 		CED9F1202A368A5A00A62436 /* AmplificationEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmplificationEffect.swift; sourceTree = "<group>"; };
 		CEF7E2AB2A2E7C71001527BD /* VanillaCardAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VanillaCardAttributes.swift; sourceTree = SOURCE_ROOT; };
@@ -69,19 +71,20 @@
 		CE30972C2A2C3E1600A5F960 /* SetGame */ = {
 			isa = PBXGroup;
 			children = (
-				CED9F1202A368A5A00A62436 /* AmplificationEffect.swift */,
+				CEB3691B2A37BCAD0096B25F /* Cardify.swift */,
+				CE30973B2A2C437800A5F960 /* AspectVGrid.swift */,
 				CEF7E2AB2A2E7C71001527BD /* VanillaCardAttributes.swift */,
 				CE30972D2A2C3E1600A5F960 /* SetGameApp.swift */,
 				CE30972F2A2C3E1600A5F960 /* SetGameView.swift */,
 				CEAE4A8A2A2EFC0200A6D633 /* CardView.swift */,
+				CE8004072A301924000BD4F3 /* CardSymbolView.swift */,
+				CED9F1202A368A5A00A62436 /* AmplificationEffect.swift */,
 				CED9F11E2A3683CD00A62436 /* ShakeEffect.swift */,
 				CE3097432A2D538000A5F960 /* Diamond.swift */,
 				CE30973D2A2C43DD00A5F960 /* SetGameModel.swift */,
 				CE30973F2A2C479E00A5F960 /* SetGameViewModel.swift */,
 				CE3097312A2C3E1700A5F960 /* Assets.xcassets */,
 				CE3097332A2C3E1700A5F960 /* Preview Content */,
-				CE30973B2A2C437800A5F960 /* AspectVGrid.swift */,
-				CE8004072A301924000BD4F3 /* CardSymbolView.swift */,
 			);
 			path = SetGame;
 			sourceTree = "<group>";
@@ -170,6 +173,7 @@
 				CE30973E2A2C43DD00A5F960 /* SetGameModel.swift in Sources */,
 				CE8004082A301924000BD4F3 /* CardSymbolView.swift in Sources */,
 				CE3097442A2D538000A5F960 /* Diamond.swift in Sources */,
+				CEB3691C2A37BCAD0096B25F /* Cardify.swift in Sources */,
 				CE30973C2A2C437800A5F960 /* AspectVGrid.swift in Sources */,
 				CED9F11F2A3683CD00A62436 /* ShakeEffect.swift in Sources */,
 				CEF7E2AC2A2E7C71001527BD /* VanillaCardAttributes.swift in Sources */,

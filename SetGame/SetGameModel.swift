@@ -18,6 +18,7 @@ protocol SetMatchable {
 struct SetGameModel<CardAttributes: SetMatchable> {
     /// All available cards.
     var cards: [Card]
+    var doneCards: [Card] = []
     /// The number of cards that can form a matching set.
     let setSize: Int
 
@@ -50,6 +51,9 @@ struct SetGameModel<CardAttributes: SetMatchable> {
         let cardIndices = cardIndicesBy(state: sourceState)
         for index in cardIndices {
             cards[index].state = destinationState
+            if destinationState == .done {
+                doneCards.append(cards[index])
+            }
         }
         return cardIndices.count
     }
@@ -74,7 +78,7 @@ struct SetGameModel<CardAttributes: SetMatchable> {
     }
 
     /// Returns the card index given its `id`.
-    private func cardIndexBy(id: Int) -> Int? {
+    func cardIndexBy(id: Int) -> Int? {
         cards.firstIndex { $0.id == id }
     }
 
@@ -90,6 +94,11 @@ struct SetGameModel<CardAttributes: SetMatchable> {
         var isMatched: Bool { state == .matched }
         /// Whether or not the card is currently mismatched.
         var isMismatched: Bool { state == .mismatched }
+
+        /// Returns the index of the card with the given collection of `cards`.
+        func index(in cards: [Self], fallbackIndex: Int = 0) -> Int {
+            cards.firstIndex { id == $0.id } ?? fallbackIndex
+        }
 
         /// Returns true if the given `cards` form a matching set of the given `setSize`, and false otherwise.
         static func isMatchingSet(_ cards: [Self], setSize: Int) -> Bool {
