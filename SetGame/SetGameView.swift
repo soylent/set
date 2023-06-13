@@ -39,7 +39,7 @@ struct SetGameView: View {
                 .matchedGeometryEffect(id: card.id, in: cardNamespace)
                 .onTapGesture {
                     game.choose(card: card, selectedCardIds: &selectedCardIds)
-                    dealMoreCards()
+                    dealCards()
                     game.tryToMatchCards(withIds: selectedCardIds)
                 }
         }
@@ -50,7 +50,7 @@ struct SetGameView: View {
         HStack {
             pile(of: game.remainingCards, isFaceUp: false, indexIn: game.cards)
                 .onTapGesture {
-                    dealMoreCards(replacingMatchedOnly: false)
+                    dealCards(replacingMatchedOnly: false)
                 }
             Spacer()
             pile(of: game.doneCards, isFaceUp: true, indexIn: game.doneCards)
@@ -75,7 +75,7 @@ struct SetGameView: View {
     private func pile(of cards: [SetGameViewModel.Card], isFaceUp: Bool, indexIn allCards: [SetGameViewModel.Card]) -> some View {
         ZStack {
             ForEach(cards) { card in
-                let offset = CGFloat(card.index(in: allCards) / DrawingConstants.cardGroupSizeInPile * DrawingConstants.cardGroupOffsetInPile)
+                let offset = CGFloat(card.index(in: allCards) / DrawingConstants.miniStackSize * DrawingConstants.miniStackOffset)
                 CardView(card: card, isFaceUp: isFaceUp, selectedCardIds: $selectedCardIds)
                     .offset(x: 0, y: offset)
                     .zIndex(zIndex(for: card, in: allCards))
@@ -91,14 +91,14 @@ struct SetGameView: View {
     }
 
     /// Discards any matched cards and draws more cards from the deck.
-    private func dealMoreCards(replacingMatchedOnly: Bool = true) {
+    private func dealCards(replacingMatchedOnly: Bool = true) {
         let matchedCount = withAnimation {
             game.discardMatchedCards()
         }
         if matchedCount > 0 || !replacingMatchedOnly {
             let delay = matchedCount > 0 ? DrawingConstants.dealingDelay : 0.0
             withAnimation(.default.delay(delay)) {
-                game.dealMoreCards()
+                game.dealCards()
             }
         }
     }
@@ -106,11 +106,11 @@ struct SetGameView: View {
     private struct DrawingConstants {
         static let cardAspectRatio: CGFloat = 3/4
         static let cardPadding: CGFloat = 2
+        static let dealingDelay: CGFloat = 0.06
+        static let miniStackSize = 12
+        static let miniStackOffset = 2
         static let minCardWidth: CGFloat = 60
         static let pileHeight: CGFloat = 110
-        static let dealingDelay: CGFloat = 0.06
-        static let cardGroupSizeInPile = 12
-        static let cardGroupOffsetInPile = 2
     }
 }
 

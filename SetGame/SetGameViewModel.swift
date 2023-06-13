@@ -14,14 +14,14 @@ class SetGameViewModel: ObservableObject {
 
     /// An instance of the game model.
     @Published var model: SetGameModel<VanillaCardAttributes>!
-    /// The cards that are currently on the table.
-    var visibleCards: [Card] { model.cardsBy(states: .unmatched, .matched, .mismatched) }
-    /// The cards that are currently in the deck.
-    var remainingCards: [Card] { model.cardsBy(states: .deck) }
-    /// The cards that have been discarded.
-    var doneCards: [Card] { model.doneCards.reversed() }
     /// All available cards.
     var cards: [Card] { model.cards }
+    /// The cards that have been discarded.
+    var doneCards: [Card] { model.doneCards.reversed() }
+    /// The cards that are currently in the deck.
+    var remainingCards: [Card] { model.cardsBy(states: .deck) }
+    /// The cards that are currently on the table.
+    var visibleCards: [Card] { model.cardsBy(states: .unmatched, .matched, .mismatched) }
 
     /// Creates an instance of the view model.
     init() {
@@ -57,7 +57,7 @@ class SetGameViewModel: ObservableObject {
     func discardMatchedCards(withReplacement: Bool = false) -> Int {
         let matchedCount = model.changeCardState(from: .matched, to: .done)
         if withReplacement {
-            model.dealMoreCards(numberOfCards: matchedCount)
+            model.dealCards(numberOfCards: matchedCount)
         }
         return matchedCount
     }
@@ -68,8 +68,8 @@ class SetGameViewModel: ObservableObject {
     }
 
     /// Adds more cards to the table.
-    func dealMoreCards() {
-        model.dealMoreCards(numberOfCards: VanillaCardAttributes.additionalDealingSize)
+    func dealCards() {
+        model.dealCards(numberOfCards: VanillaCardAttributes.additionalDealingSize)
     }
 
     /// Resets the game.

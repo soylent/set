@@ -18,6 +18,7 @@ protocol SetMatchable {
 struct SetGameModel<CardAttributes: SetMatchable> {
     /// All available cards.
     var cards: [Card]
+    /// All matched cards that have been discarded.
     var doneCards: [Card] = []
     /// The number of cards that can form a matching set.
     let setSize: Int
@@ -30,7 +31,7 @@ struct SetGameModel<CardAttributes: SetMatchable> {
         }
         .shuffled()
 
-        dealMoreCards(numberOfCards: initialDealingSize)
+        dealCards(numberOfCards: initialDealingSize)
     }
 
     /// Tries to match the cards with the given `cardIds` and updates their state accordingly.
@@ -47,9 +48,10 @@ struct SetGameModel<CardAttributes: SetMatchable> {
     }
 
     /// Changes the state of cards in the `sourceState` to the `destinationState` and returns the number of affected cards.
-    mutating func changeCardState(from sourceState: Card.State, to destinationState: Card.State) -> Int {
+    mutating func changeCardState(from sourceState: Card.State, to destinationState: Card.State, limit: Int? = nil) -> Int {
         let cardIndices = cardIndicesBy(state: sourceState)
-        for index in cardIndices {
+        let limit = min(limit ?? cardIndices.count, cardIndices.count)
+        for index in cardIndices[..<limit] {
             cards[index].state = destinationState
             if destinationState == .done {
                 doneCards.append(cards[index])
@@ -59,12 +61,8 @@ struct SetGameModel<CardAttributes: SetMatchable> {
     }
 
     /// Add the given `numberOfCards` to the table.
-    mutating func dealMoreCards(numberOfCards: Int) {
-        let deckCardIndices = cardIndicesBy(state: .deck)
-        let numberOfCards = min(numberOfCards, deckCardIndices.count)
-        deckCardIndices[0..<numberOfCards].forEach {
-            cards[$0].state = .unmatched
-        }
+    mutating func dealCards(numberOfCards: Int) {
+        let _ = changeCardState(from: .deck, to: .unmatched, limit: numberOfCards)
     }
 
     /// Returns cards that are in one of the given `states`.
@@ -72,14 +70,14 @@ struct SetGameModel<CardAttributes: SetMatchable> {
         cards.filter { states.contains($0.state) }
     }
 
-    /// Returns indices of cards that are in the given `state`.
-    private func cardIndicesBy(state: Card.State) -> [Int] {
-        cardsBy(states: state).map { cardIndexBy(id: $0.id)! }
-    }
-
     /// Returns the card index given its `id`.
     func cardIndexBy(id: Int) -> Int? {
         cards.firstIndex { $0.id == id }
+    }
+
+    /// Returns indices of cards that are in the given `state`.
+    private func cardIndicesBy(state: Card.State) -> [Int] {
+        cardsBy(states: state).map { cardIndexBy(id: $0.id)! }
     }
 
     /// A single Set card.
