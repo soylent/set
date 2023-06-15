@@ -14,6 +14,8 @@ class SetGameViewModel: ObservableObject {
 
     /// An instance of the game model.
     @Published var model: SetGameModel<VanillaCardAttributes>!
+    /// An array of ids of the currently selected cards.
+    @Published private var selectedCardIds: Set<Int> = []
     /// All available cards.
     var cards: [Card] { model.cards }
     /// The cards that have been discarded.
@@ -29,16 +31,17 @@ class SetGameViewModel: ObservableObject {
     }
 
     /// Selects the given `card` and updates the game state accordingly.
-    func choose(card: Card, selectedCardIds: inout Set<Int>) {
+    func choose(card: Card) {
         if selectedCardIds.count >= model.setSize {
             selectedCardIds.removeAll()
             resetMismatchedCards()
         }
-        toggle(card: card, selectedCardIds: &selectedCardIds)
+
+        toggle(card: card)
     }
 
     /// Flips the selection of the given `card` by updating `selectedCardIds`.
-    private func toggle(card: Card, selectedCardIds: inout Set<Int>) {
+    private func toggle(card: Card) {
         guard card.state != .matched else { return }
 
         if selectedCardIds.contains(card.id) {
@@ -48,8 +51,18 @@ class SetGameViewModel: ObservableObject {
         }
     }
 
-    /// Checks if the given `selectedCardIds` form a matching set.
-    func tryToMatchCards(withIds selectedCardIds: Set<Int>) {
+    /// Ruturns true if the given `card` is currently selected.
+    func isSelected(_ card: Card) -> Bool {
+        selectedCardIds.contains(card.id)
+    }
+
+    /// Deselects all currently selected cards.
+    func deselectAllCards() {
+        selectedCardIds.removeAll()
+    }
+
+    /// Checks if the currently selected cards form a matching set.
+    func tryToMatchSelectedCards() {
         model.tryToMatchCards(withIds: selectedCardIds)
     }
 

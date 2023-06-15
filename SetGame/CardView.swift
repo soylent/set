@@ -13,10 +13,8 @@ struct CardView: View {
     let card: SetGameViewModel.Card
     /// Whether or not the face is up.
     var isFaceUp = true
-    /// An array of ids of the currently selected cards.
-    @Binding var selectedCardIds: Set<Int>
     /// Whether or not the card is currently selected.
-    private var selected: Bool { selectedCardIds.contains(card.id) }
+    var selected = false
 
     /// The view body.
     var body: some View {

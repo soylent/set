@@ -11,8 +11,6 @@ import SwiftUI
 struct SetGameView: View {
     /// A reference to the view model instance.
     @ObservedObject var game: SetGameViewModel
-    /// An array of card ids that are currently selected.
-    @State private var selectedCardIds: Set<Int> = []
     /// Namespace for card ids.
     @Namespace private var cardNamespace
 
@@ -33,14 +31,14 @@ struct SetGameView: View {
             aspectRatio: DrawingConstants.cardAspectRatio,
             minItemWidth: DrawingConstants.minCardWidth
         ) { card in
-            CardView(card: card, selectedCardIds: $selectedCardIds)
+            CardView(card: card, selected: game.isSelected(card))
                 .zIndex(zIndex(for: card, in: game.cards))
                 .padding(DrawingConstants.cardPadding)
                 .matchedGeometryEffect(id: card.id, in: cardNamespace)
                 .onTapGesture {
-                    game.choose(card: card, selectedCardIds: &selectedCardIds)
+                    game.choose(card: card)
                     dealCards()
-                    game.tryToMatchCards(withIds: selectedCardIds)
+                    game.tryToMatchSelectedCards()
                 }
         }
     }
@@ -62,7 +60,7 @@ struct SetGameView: View {
     private var bottomMenu: some View {
         HStack {
             Button {
-                selectedCardIds.removeAll()
+                game.deselectAllCards()
                 game.startNewGame()
             } label: {
                 Image(systemName: "arrow.clockwise.circle.fill")
@@ -76,7 +74,7 @@ struct SetGameView: View {
         ZStack {
             ForEach(cards) { card in
                 let offset = CGFloat(card.index(in: allCards) / DrawingConstants.miniStackSize * DrawingConstants.miniStackOffset)
-                CardView(card: card, isFaceUp: isFaceUp, selectedCardIds: $selectedCardIds)
+                CardView(card: card, isFaceUp: isFaceUp)
                     .offset(x: 0, y: offset)
                     .zIndex(zIndex(for: card, in: allCards))
                     .matchedGeometryEffect(id: card.id, in: cardNamespace)
