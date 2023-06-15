@@ -69,7 +69,7 @@ struct SetGameView: View {
         .font(.largeTitle)
     }
 
-    /// Returns a view that represents a file of given `cards`.
+    /// Returns a view representing a pile of given `cards`.
     private func pile(of cards: [SetGameViewModel.Card], isFaceUp: Bool, indexIn allCards: [SetGameViewModel.Card]) -> some View {
         ZStack {
             ForEach(cards) { card in
