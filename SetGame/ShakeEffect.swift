@@ -14,6 +14,7 @@ struct ShakeEffect: GeometryEffect {
         get { angle }
         set { angle = newValue }
     }
+
     /// Controls the horizontal offset of the view.
     private var angle: Double
     /// Max angle value controls the number of shakes.
@@ -27,7 +28,7 @@ struct ShakeEffect: GeometryEffect {
     }
 
     /// Returns a transformation matrix.
-    func effectValue(size: CGSize) -> ProjectionTransform {
+    func effectValue(size _: CGSize) -> ProjectionTransform {
         let xOffset = Self.amplitude * sin(Angle(degrees: angle).radians)
 
         return ProjectionTransform(CGAffineTransform(translationX: xOffset, y: 0))

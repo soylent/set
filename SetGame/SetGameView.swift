@@ -101,8 +101,8 @@ struct SetGameView: View {
         }
     }
 
-    private struct DrawingConstants {
-        static let cardAspectRatio: CGFloat = 3/4
+    private enum DrawingConstants {
+        static let cardAspectRatio: CGFloat = 3 / 4
         static let cardPadding: CGFloat = 2
         static let dealingDelay: CGFloat = 0.06
         static let miniStackSize = 12

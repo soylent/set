@@ -16,7 +16,7 @@ struct CardSymbolView: View {
     var body: some View {
         VStack {
             let numberOfSymbols = cardAttributes.number.rawValue
-            ForEach(0..<numberOfSymbols, id: \.self) { _ in
+            ForEach(0 ..< numberOfSymbols, id: \.self) { _ in
                 symbol
                     .aspectRatio(DrawingConstants.aspectRatio, contentMode: .fit)
                     .foregroundColor(symbolColor)
@@ -39,7 +39,7 @@ struct CardSymbolView: View {
 
     /// Applies shading to a card symbol based on the card attributes.
     @ViewBuilder
-    private func shaded<Symbol: Shape>(_ symbol: Symbol) -> some View {
+    private func shaded(_ symbol: some Shape) -> some View {
         switch cardAttributes.shading {
         case .solid:
             symbol.fill()
@@ -62,8 +62,8 @@ struct CardSymbolView: View {
         }
     }
 
-    private struct DrawingConstants {
-        static let aspectRatio: CGFloat = 9/4
+    private enum DrawingConstants {
+        static let aspectRatio: CGFloat = 9 / 4
         static let openShadingLineWidth: CGFloat = 4
         static let stripedShadingOpacity: CGFloat = 0.4
     }

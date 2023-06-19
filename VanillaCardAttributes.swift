@@ -53,14 +53,17 @@ struct VanillaCardAttributes: SetMatchable {
     enum Number: Int, CaseIterable {
         case one = 1, two, three
     }
+
     /// Symbol types.
     enum Symbol: Int, CaseIterable {
         case diamond, squiggle, oval
     }
+
     /// Shading types.
     enum Shading: Int, CaseIterable {
         case solid, striped, open
     }
+
     /// Symbol colors.
     enum Color: Int, CaseIterable {
         case red, green, purple

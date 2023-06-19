@@ -14,6 +14,7 @@ struct AmplificationEffect: Animatable, ViewModifier {
         get { angle }
         set { angle = newValue }
     }
+
     /// Controls the scale of the view.
     private var angle: Double
     /// Max angle value controls the number of cycles.

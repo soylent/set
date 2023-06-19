@@ -26,7 +26,7 @@ struct SetGameModel<CardAttributes: SetMatchable> {
     /// Creates a new game instance with the given settings and `cardAttributes`.
     init(cardAttributes: [CardAttributes], setSize: Int, initialDealingSize: Int) {
         self.setSize = setSize
-        self.cards = zip(cardAttributes.indices, cardAttributes).map { index, attrs in
+        cards = zip(cardAttributes.indices, cardAttributes).map { index, attrs in
             Card(id: index, attributes: attrs)
         }
         .shuffled()
@@ -35,7 +35,7 @@ struct SetGameModel<CardAttributes: SetMatchable> {
     }
 
     /// Tries to match the cards with the given `cardIds` and updates their state accordingly.
-    mutating func tryToMatchCards<CardIds: Sequence>(withIds cardIds: CardIds) where CardIds.Element == Int {
+    mutating func tryToMatchCards(withIds cardIds: some Sequence<Int>) {
         let cardIndices = cardIds.compactMap { cardIndexBy(id: $0) }
 
         guard cardIndices.count == setSize else { return }
@@ -62,7 +62,7 @@ struct SetGameModel<CardAttributes: SetMatchable> {
 
     /// Add the given `numberOfCards` to the table.
     mutating func dealCards(numberOfCards: Int) {
-        let _ = changeCardState(from: .deck, to: .unmatched, limit: numberOfCards)
+        _ = changeCardState(from: .deck, to: .unmatched, limit: numberOfCards)
     }
 
     /// Returns cards that are in one of the given `states`.
@@ -101,9 +101,9 @@ struct SetGameModel<CardAttributes: SetMatchable> {
         /// Returns true if the given `cards` form a matching set of the given `setSize`, and false otherwise.
         static func isMatchingSet(_ cards: [Self], setSize: Int) -> Bool {
             let attrCount = cards[0].attributes.rawAttributes.count
-            for index in 0..<attrCount {
+            for index in 0 ..< attrCount {
                 let distinctAttrs = Set(cards.map { $0.attributes.rawAttributes[index] })
-                if distinctAttrs.count > 1 && distinctAttrs.count < setSize {
+                if distinctAttrs.count > 1, distinctAttrs.count < setSize {
                     return false
                 }
             }

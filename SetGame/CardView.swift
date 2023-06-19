@@ -71,7 +71,7 @@ struct CardView: View {
         }
     }
 
-    private struct DrawingConstants {
+    private enum DrawingConstants {
         static let backColor: Color = .orange
         static let cornerRadius: CGFloat = 12
         static let selectedCardLineWidth: CGFloat = 2
