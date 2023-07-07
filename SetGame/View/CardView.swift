@@ -11,8 +11,10 @@ import SwiftUI
 struct CardView: View {
     /// An instance of the card model.
     let card: SetGameViewModel.Card
+
     /// Whether or not the face is up.
     var isFaceUp = true
+
     /// Whether or not the card is currently selected.
     var selected = false
 

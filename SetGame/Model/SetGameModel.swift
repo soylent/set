@@ -18,8 +18,10 @@ protocol SetMatchable {
 struct SetGameModel<CardAttributes: SetMatchable> {
     /// All available cards.
     var cards: [Card]
+
     /// All matched cards that have been discarded.
     var doneCards: [Card] = []
+
     /// The number of cards that can form a matching set.
     let setSize: Int
 
@@ -84,12 +86,16 @@ struct SetGameModel<CardAttributes: SetMatchable> {
     struct Card: Identifiable {
         /// The identifier of the card.
         let id: Int
+
         /// Attributes that define the card.
         let attributes: CardAttributes
+
         /// The current state of the card.
         var state: State = .deck
+
         /// Whether or not the card is currently matched.
         var isMatched: Bool { state == .matched }
+
         /// Whether or not the card is currently mismatched.
         var isMismatched: Bool { state == .mismatched }
 

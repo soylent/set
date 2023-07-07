@@ -11,12 +11,16 @@ import SwiftUI
 struct AspectVGrid<Item, ItemView>: View where Item: Identifiable, ItemView: View {
     /// Items to display.
     var items: [Item]
+
     /// The desired aspect ratio of each item.
     var aspectRatio: CGFloat
+
     /// Returns a view that represents the given item.
     var content: (Item) -> ItemView
+
     /// Minimum item width.
     var minItemWidth: CGFloat
+
     /// Creates a new grid instance with the given parameters.
     init(items: [Item], aspectRatio: CGFloat, minItemWidth: CGFloat, @ViewBuilder content: @escaping (Item) -> ItemView) {
         self.items = items

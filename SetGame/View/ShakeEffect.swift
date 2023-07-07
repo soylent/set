@@ -17,8 +17,10 @@ struct ShakeEffect: GeometryEffect {
 
     /// Controls the horizontal offset of the view.
     private var angle: Double
+
     /// Max angle value controls the number of shakes.
     private static let maxAngle = 720.0
+
     /// Shaking amplitude.
     private static let amplitude = 10.0
 

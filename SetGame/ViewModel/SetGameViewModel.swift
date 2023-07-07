@@ -14,14 +14,19 @@ class SetGameViewModel: ObservableObject {
 
     /// An instance of the game model.
     @Published var model: SetGameModel<VanillaCardAttributes>!
+
     /// An array of ids of the currently selected cards.
     @Published private var selectedCardIds: Set<Int> = []
+
     /// All available cards.
     var cards: [Card] { model.cards }
+
     /// The cards that have been discarded.
     var doneCards: [Card] { model.doneCards.reversed() }
+
     /// The cards that are currently in the deck.
     var remainingCards: [Card] { model.cardsBy(states: .deck) }
+
     /// The cards that are currently on the table.
     var visibleCards: [Card] { model.cardsBy(states: .unmatched, .matched, .mismatched) }
 

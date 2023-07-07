@@ -13,10 +13,13 @@ import Foundation
 struct VanillaCardAttributes: SetMatchable {
     /// The number of cards that can form a set.
     static let setSize = 3
+
     /// The initial number of cards on the table.
     static let initialDealingSize = 12
+
     /// The number of cards in a deck.
     static let deckSize = 3 * 3 * 3 * 3
+
     /// The number of additional cards that can be drawn.
     static let additionalDealingSize = 3
 
@@ -40,12 +43,16 @@ struct VanillaCardAttributes: SetMatchable {
 
     /// The number of symbols on the face of the card.
     var number: Number
+
     /// The symbol shown on the face of the card.
     var symbol: Symbol
+
     /// The shading applied to the card symbol(s).
     var shading: Shading
+
     /// The color of the card symbol(s).
     var color: Color
+
     /// An array that represents the card attributes.
     var rawAttributes: [Int] { [number.rawValue, symbol.rawValue, shading.rawValue, color.rawValue] }
 

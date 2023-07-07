@@ -11,6 +11,7 @@ import SwiftUI
 struct SetGameView: View {
     /// A reference to the view model instance.
     @ObservedObject var game: SetGameViewModel
+
     /// Namespace for card ids.
     @Namespace private var cardNamespace
 

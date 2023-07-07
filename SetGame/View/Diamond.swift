@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Diamond shape.
 struct Diamond: Shape {
     func path(in rect: CGRect) -> Path {
         let left = CGPoint(x: rect.minX, y: rect.midY)
