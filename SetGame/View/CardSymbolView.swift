@@ -2,7 +2,7 @@
 //  CardSymbolView.swift
 //  SetGame
 //
-//  Created by user on 6/6/23.
+//  Created by soylent on 6/6/23.
 //
 
 import SwiftUI
